@@ -50,7 +50,7 @@ def main(prompt: str):
         print("No prompt provided")
         return
 
-    prompt = prompt.replace("--nano", "")
+    prompt = prompt.replace("--edit", "")
     with Progress(transient=True) as progress:
         if ANTHROPIC_KEY_EXISTS:
             model = ANTHROPIC_MODEL

@@ -43,14 +43,14 @@ function gpt {
         gpt_help_text
         return 0
     fi
-    if [[ "${GPT_PROMPT}" == *"--nano"* ]]; then
+    if [[ "${GPT_PROMPT}" == *"--edit"* ]]; then
         TEMPFILE=$(mktemp)
-        nano "${TEMPFILE}"
-        NANO_TEXT=$(cat "${TEMPFILE}")
-        GPT_PROMPT="${GPT_PROMPT}"$'\n'"${NANO_TEXT}"
+        $EDITOR "${TEMPFILE}"
+        EDITOR_TEXT=$(cat "${TEMPFILE}")
+        GPT_PROMPT="${GPT_PROMPT}"$'\n'"${EDITOR_TEXT}"
     fi
     "${GPT_HOME}/venv/bin/python" "${GPT_HOME}/gpt.py" "${GPT_PROMPT}"
-    if [[ "${GPT_PROMPT}" == *"--nano"* ]]; then
+    if [[ "${GPT_PROMPT}" == *"--edit"* ]]; then
         rm -f "${TEMPFILE}"
     fi
 }
@@ -64,7 +64,7 @@ Ask GPT-4 a question. Usage:
   gpt ffmpeg convert webm to a gif
   gpt what is the best restaurant in melbourne
   echo 'hello world' | gpt what does this text say
-  gpt --nano # Incompatible with pipes
+  gpt --edit # Incompatible with pipes
 
 EOF
 }
